@@ -99,13 +99,13 @@ func (a *App) Run() {
 		}
 	}(a.ctx)
 
-	btn = widget.NewButton("Stop", func() {
+	btn = widget.NewButton("停止", func() {
 		if running {
 			ticker.Stop()
-			btn.SetText("Start")
+			btn.SetText("开始")
 		} else {
 			ticker.Reset(tickTime)
-			btn.SetText("Stop")
+			btn.SetText("停止")
 		}
 		running = !running
 	})
