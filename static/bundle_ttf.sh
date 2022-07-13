@@ -1,0 +1,1 @@
+fyne bundle AaZiTiGuanJiaZhiJiaoDai-2.ttf > bundle.go
