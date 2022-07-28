@@ -47,11 +47,14 @@ class _FoodsSelectorState extends State<FoodsSelector> {
     const Image(image: AssetImage('resource/logo.png'), width: 200, height: 200)
   ];
   int _index = 0;
+  int kfc = 0;
+  void run() async {
+    kfc = await _initFoods();
+  }
 
   @override
   void initState() {
-    _initFoods();
-
+    run();
     super.initState();
     int count = 0;
     const period = Duration(milliseconds: 60);
@@ -60,6 +63,13 @@ class _FoodsSelectorState extends State<FoodsSelector> {
         setState(() {
           _index = count % _foods.length;
         });
+      } else {
+        // 彩蛋：kfc_V_me50
+        if (DateTime.now().weekday == 4) {
+          setState(() {
+            _index = kfc;
+          });
+        }
       }
       count++;
     });
@@ -83,7 +93,8 @@ class _FoodsSelectorState extends State<FoodsSelector> {
     );
   }
 
-  Future _initFoods() async {
+  Future<int> _initFoods() async {
+    int kfc = 0;
     final Map<String, dynamic> assets =
         jsonDecode(await rootBundle.loadString('AssetManifest.json'));
     assets.keys
@@ -91,8 +102,12 @@ class _FoodsSelectorState extends State<FoodsSelector> {
             key.contains('resource/foods/') && key.contains('.png'))
         .toList()
         .forEach((element) {
+      if (element.contains('19.png')) {
+        kfc = _foods.length - 1;
+      }
       _foods.add(Image(image: AssetImage(element), width: 200, height: 200));
     });
     _foods.removeAt(0);
+    return kfc;
   }
 }
